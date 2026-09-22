@@ -3,21 +3,26 @@ name: Daily FYERS Swing Scan
 on:
   workflow_dispatch:
   schedule:
+    # 16:00 IST = 10:30 UTC, after NSE cash-market close.
     - cron: '30 10 * * 1-5'
 
 jobs:
   scan:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+
       - name: Install dependencies
         run: pip install -r requirements.txt
-      - name: Run scanner
+
+      - name: Run strict 6/6 scanner
         env:
           FYERS_CLIENT_ID: ${{ secrets.FYERS_CLIENT_ID }}
           FYERS_ACCESS_TOKEN: ${{ secrets.FYERS_ACCESS_TOKEN }}
