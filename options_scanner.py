@@ -272,7 +272,7 @@ def main():
 
     data, expiry = chain_result
     result = evaluate(df, data)
-    result["expiry"] = expiry.get("date")
+    result["expiry"] = expiry.get("date") or expiry.get("expiry")
 
     print(result)
 
