@@ -245,8 +245,10 @@ def evaluate(df, data):
 
     return result
 
-
 def main():
+    print("CLIENT ID loaded:", bool(CLIENT_ID))
+    print("TOKEN loaded:", bool(ACCESS_TOKEN))
+
     if not CLIENT_ID or not ACCESS_TOKEN:
         raise SystemExit("Missing FYERS_CLIENT_ID or FYERS_ACCESS_TOKEN.")
 
@@ -275,23 +277,6 @@ def main():
     result["expiry"] = expiry.get("date") or expiry.get("expiry")
 
     print(result)
-
-    if result["signal"] == "CALL BUY":
-        print(
-            f"\n🟢 NIFTY CALL BUY | {result['option']} | "
-            f"Entry ₹{result['entry']} | SL ₹{result['stop_loss']} | "
-            f"T1 ₹{result['target_1']} | T2 ₹{result['target_2']}"
-        )
-    elif result["signal"] == "PUT BUY":
-        print(
-            f"\n🔴 NIFTY PUT BUY | {result['option']} | "
-            f"Entry ₹{result['entry']} | SL ₹{result['stop_loss']} | "
-            f"T1 ₹{result['target_1']} | T2 ₹{result['target_2']}"
-        )
-    else:
-        print("\n⚪ NO TRADE — strict 6/6 condition not met.")
-
-    print("\nFINAL SIGNAL:", result["signal"], "|", result["score"])
 
 
 if __name__ == "__main__":
