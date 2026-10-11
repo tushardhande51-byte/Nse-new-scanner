@@ -1,10 +1,8 @@
 name: Daily FYERS Swing Scan
 
 on:
+  # Manual-only while the Fundamental Scanner is the single scheduled scanner.
   workflow_dispatch:
-  schedule:
-    # 16:00 IST = 10:30 UTC, after NSE cash-market close.
-    - cron: '30 10 * * 1-5'
 
 jobs:
   scan:
