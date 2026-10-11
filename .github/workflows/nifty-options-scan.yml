@@ -1,10 +1,8 @@
 name: NIFTY Options Scanner
 
 on:
+  # Manual-only while the Fundamental Scanner is the single scheduled scanner.
   workflow_dispatch:
-  schedule:
-    # Every 15 minutes during Indian market hours, Mon-Fri.
-    - cron: "*/15 3-10 * * 1-5"
 
 jobs:
   options-scan:
