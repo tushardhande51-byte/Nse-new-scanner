@@ -1,0 +1,41 @@
+name: Manual Yahoo Fundamental Scan
+
+on:
+  workflow_dispatch:
+    inputs:
+      max_stocks:
+        description: "Maximum NSE stocks to scan (250 for first test; use 0 for all)"
+        required: true
+        default: "250"
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  yahoo-fundamental-scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Run Yahoo Finance fundamental scan
+        env:
+          MAX_STOCKS: ${{ inputs.max_stocks }}
+          YAHOO_PAUSE_SECONDS: "0.15"
+        run: python yahoo_fundamental_scan.py
+      - name: Upload CSV results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: yahoo-fundamental-results
+          path: yahoo_fundamental_results.csv
+          if-no-files-found: warn
+          retention-days: 14
