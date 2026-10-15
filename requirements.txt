@@ -1,3 +1,4 @@
 fyers-apiv3==3.1.7
 pandas>=2.2,<3
 requests>=2.31,<3
+yfinance>=0.2.65
