@@ -85,7 +85,10 @@ def score_fundamentals(metrics):
     metrics = metrics or {}
     missing = [
         key for key in WEIGHTS
-        if _number(metrics, key) is None
+        if (
+            (key == "free_cash_flow_positive" and not isinstance(metrics.get(key), bool))
+            or (key != "free_cash_flow_positive" and _number(metrics, key) is None)
+        )
     ]
     scores = {}
 
