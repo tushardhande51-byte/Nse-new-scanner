@@ -34,11 +34,11 @@ def read_option_csv(upload):
         return None
     # Supports both clearly named CE/PE CSVs and NSE's standard left/right column layout.
     mapping = {
-        "CE OI": find_col("CE", ["OI"], si-11),
-        "CE CHNG IN OI": find_col("CE", ["CHNG IN OI","CHANGE IN OI"], si-10),
-        "CE VOLUME": find_col("CE", ["VOLUME"], si-9),
-        "CE IV": find_col("CE", ["IV"], si-8),
-        "CE LTP": find_col("CE", ["LTP"], si-7),
+        "CE OI": find_col("CE", ["OI"], si-10),
+        "CE CHNG IN OI": find_col("CE", ["CHNG IN OI","CHANGE IN OI"], si-9),
+        "CE VOLUME": find_col("CE", ["VOLUME"], si-8),
+        "CE IV": find_col("CE", ["IV"], si-7),
+        "CE LTP": find_col("CE", ["LTP"], si-6),
         "PE OI": find_col("PE", ["OI"], si+10),
         "PE CHNG IN OI": find_col("PE", ["CHNG IN OI","CHANGE IN OI"], si+9),
         "PE VOLUME": find_col("PE", ["VOLUME"], si+8),
