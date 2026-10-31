@@ -35,3 +35,26 @@ The dashboard calculates PCR, total Call/Put OI, change in OI, volume comparison
 ## Existing scanner
 
 The existing `options_scanner.py` and equity scanner files are retained. The free dashboard CSV workflow is separate and does not call FYERS.
+
+
+## NIFTY 50 Options Swing Signal Engine (new)
+
+New file: `nifty_options_engine.py`
+
+This signal-only engine combines NIFTY spot candles on 15-minute and 1-hour timeframes with a FYERS option-chain snapshot. It checks EMA trend alignment, RSI, ADX, relative volume, 20-bar breakout/breakdown, PCR context, and option liquidity (delta, volume and bid/ask spread). It prints CALL BUY, PUT BUY, or NO TRADE with the selected contract and a provisional premium-based risk plan. It never places orders.
+
+### Run it
+```bash
+pip install -r requirements.txt
+export FYERS_CLIENT_ID="your_client_id"
+export FYERS_ACCESS_TOKEN="your_access_token"
+python nifty_options_engine.py
+```
+On Windows, set the two environment variables in the terminal before running. Keep credentials private; do not commit tokens to GitHub.
+
+### Important validation notes
+- FYERS access token must be valid and the account/API must return NIFTY history and option-chain data. If FYERS returns an error, the engine stops instead of fabricating a signal.
+- The first version needs at least 220 candles on each timeframe for EMA200 calculations.
+- The premium stop/targets (25% stop, 50%/75% targets) are provisional defaults, not proven settings. Configure and validate them through historical option-premium backtesting.
+- A spot-index backtest alone is not a valid options backtest: option expiry, strike selection, bid/ask spread, IV, theta decay, slippage and brokerage must be represented.
+- The score threshold is a research rule, not a win probability. Do not use real money until historical testing and paper trading show acceptable results.
