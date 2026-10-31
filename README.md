@@ -58,3 +58,23 @@ On Windows, set the two environment variables in the terminal before running. Ke
 - The premium stop/targets (25% stop, 50%/75% targets) are provisional defaults, not proven settings. Configure and validate them through historical option-premium backtesting.
 - A spot-index backtest alone is not a valid options backtest: option expiry, strike selection, bid/ask spread, IV, theta decay, slippage and brokerage must be represented.
 - The score threshold is a research rule, not a win probability. Do not use real money until historical testing and paper trading show acceptable results.
+
+
+## Broker-free NIFTY 50 15m/1h options signal dashboard
+
+New standalone app: `free_nifty_options_swing.py`
+
+This version does not import or call FYERS, Zerodha, Dhan, or any broker API. It does not place orders and does not scrape NSE automatically. Users manually upload:
+1. NIFTY 50 spot 15-minute OHLCV CSV.
+2. NIFTY 50 spot 1-hour OHLCV CSV.
+3. NSE NIFTY Option Chain CSV.
+
+Candle CSV columns must include timestamp/date-time, open, high, low, close, volume, with at least 220 rows per timeframe. Enter the NIFTY spot corresponding to the candle/chain snapshot and the option-chain snapshot age in minutes. The dashboard returns CALL BUY, PUT BUY, or NO TRADE. It requires at least 7 of 9 direction/liquidity checks. Missing, invalid, or stale inputs return NO TRADE.
+
+Run:
+```bash
+pip install -r requirements.txt
+streamlit run free_nifty_options_swing.py
+```
+
+Important: NSE publishes its option chain with a CSV download, and its derivatives reports include daily UDiFF bhavcopy files. These are not a free official intraday 15-minute/1-hour options-premium history feed. Therefore the candle CSV must be obtained/exported from a free chart source that permits downloads. Standard NSE option-chain CSV is a snapshot and does not supply a historical time series. The option selection is a simple near-ATM liquidity/spread heuristic; standard NSE CSV does not include option delta. Entry/SL/targets are provisional, not validated. This version has not been empirically backtested; paper trade first.
